@@ -25,7 +25,7 @@ app.secret_key = "super-secret-key"  # change in prod
 # -------------------
 # Load model once
 # -------------------
-MODEL_PATH = "brain_cancer_model.h5"
+MODEL_PATH = "brain_cancer_model_v2.h5"
 model = load_model(MODEL_PATH)
 
 # Match your class order used when training
