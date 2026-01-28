@@ -29,14 +29,9 @@ import os
 from huggingface_hub import snapshot_download
 from tensorflow.keras.models import load_model
 
-MODEL_DIR = snapshot_download(
-    repo_id="krish20/brain-tumor-efficientnet",
-    token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
-    local_dir="/opt/render/project/src/model_cache",
-    local_dir_use_symlinks=False
-)
-
-MODEL_PATH = os.path.join(MODEL_DIR, "brain_cancer_model_v2.h5")
+# -------------------
+MODEL_PATH = "brain_cancer_model_v2.h5"
+model = load_model(MODEL_PATH)
 
 model = load_model(MODEL_PATH, compile=False)
 
