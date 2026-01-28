@@ -13,7 +13,7 @@ numpy
 
 # --- For Grad-CAM Visualization ---
 matplotlib
-huggingface-hub
+huggingface-hub>=0.24.0
 
 # --- Deployment (optional but recommended) ---
 gunicorn
