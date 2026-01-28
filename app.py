@@ -25,13 +25,14 @@ app.secret_key = "super-secret-key"  # change in prod
 # -------------------
 # Load model once
 # -------------------
-import os
-from huggingface_hub import snapshot_download
-from tensorflow.keras.models import load_model
 
-# -------------------
+
 MODEL_PATH = "brain_cancer_model_v2.h5"
-model = load_model(MODEL_PATH)
+
+if not os.path.exists(MODEL_PATH):
+    raise RuntimeError(f"Model not found at {MODEL_PATH}")
+
+model = load_model(MODEL_PATH, compile=False)
 
 
 
