@@ -25,8 +25,18 @@ app.secret_key = "super-secret-key"  # change in prod
 # -------------------
 # Load model once
 # -------------------
-MODEL_PATH = "brain_cancer_model_v2.h5"
-model = load_model(MODEL_PATH)
+import os
+from huggingface_hub import hf_hub_download
+from tensorflow.keras.models import load_model
+
+MODEL_PATH = hf_hub_download(
+    repo_id="krish20/brain-tumor-efficientnet",
+    filename="brain_cancer_model_efficent.h5",
+    token=os.getenv("HUGGINGFACEHUB_API_TOKEN")
+)
+
+model = load_model(MODEL_PATH, compile=False)
+
 
 # Match your class order used when training
 CLASS_NAMES = ["glioma", "meningioma", "notumor", "pituitary"]
