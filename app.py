@@ -31,7 +31,7 @@ from tensorflow.keras.models import load_model
 
 MODEL_PATH = hf_hub_download(
     repo_id="krish20/brain-tumor-efficientnet",
-    filename="brain_cancer_model_efficent.h5",
+    filename="brain_cancer_model_v2.h5",
     token=os.getenv("HUGGINGFACEHUB_API_TOKEN")
 )
 
