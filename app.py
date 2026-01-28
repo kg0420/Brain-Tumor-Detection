@@ -14,7 +14,7 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 ALLOWED_EXT = {"jpg", "jpeg", "png"}
 UPLOAD_DIR   = os.path.join("static", "uploads")
 OUT_DIR      = os.path.join("static", "predictions")
-IMG_SIZE     = (224, 224)  # EfficientNetB3
+IMG_SIZE     = (256, 256)  # EfficientNetB3
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUT_DIR, exist_ok=True)
