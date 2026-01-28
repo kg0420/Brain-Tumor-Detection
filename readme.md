@@ -98,13 +98,9 @@ False Negatives| True Negatives
 
 ---
 
-## 🚀 Prediction / Inference
+## 🚀 Inference
 
-To make predictions on new MRI images:
 
-```bash
-python src/predict.py --image path_to_image.jpg
-```
 
 Output:
 
@@ -175,3 +171,4 @@ Computer Engineering Student | AI & ML Enthusiast
 ---
 
 ⭐ If you found this project helpful, don’t forget to star the repository!
+
