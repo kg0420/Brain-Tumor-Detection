@@ -10,6 +10,10 @@ keras
 opencv-python
 Pillow
 numpy
+huggingface-hub>=0.24.0
+hf-xet
+h5py
+tensorflow
 
 # --- For Grad-CAM Visualization ---
 matplotlib
