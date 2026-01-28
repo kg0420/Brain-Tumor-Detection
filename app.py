@@ -33,10 +33,6 @@ from tensorflow.keras.models import load_model
 MODEL_PATH = "brain_cancer_model_v2.h5"
 model = load_model(MODEL_PATH)
 
-model = load_model(MODEL_PATH, compile=False)
-
-
-model = load_model(MODEL_PATH, compile=False)
 
 
 # Match your class order used when training
