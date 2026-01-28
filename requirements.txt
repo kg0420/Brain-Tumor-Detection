@@ -5,6 +5,7 @@ Werkzeug
 # --- Deep Learning ---
 tensorflow
 keras
+EfficientNetB0
 
 # --- Image Processing ---
 opencv-python
@@ -15,4 +16,5 @@ numpy
 matplotlib
 
 # --- Deployment (optional but recommended) ---
+
 gunicorn
