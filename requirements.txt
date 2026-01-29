@@ -1,21 +1,18 @@
 # --- Web Framework ---
-Flask
-Werkzeug
+Flask==3.0.0
+Werkzeug==3.0.1
 
-# --- Deep Learning ---
-tensorflow
-keras
+# --- Deep Learning (FOR .keras MODELS) ---
+tensorflow==2.16.1
+keras==3.1.1
+numpy>=1.26,<2.0
 
 # --- Image Processing ---
-opencv-python
+opencv-python-headless
 Pillow
-numpy
-huggingface-hub>=0.24.0
 
-
-
-# --- For Grad-CAM Visualization ---
+# --- Visualization ---
 matplotlib
 
-# --- Deployment (optional but recommended) ---
+# --- Deployment ---
 gunicorn
