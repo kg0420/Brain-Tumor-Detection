@@ -7,6 +7,8 @@ import tensorflow as tf
 from keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.efficientnet import preprocess_input
+import os
+os.environ["MPLCONFIGDIR"] = "/tmp"
 
 # -------------------
 # Config
@@ -32,7 +34,14 @@ MODEL_PATH = "brain_cancer_model.h5"
 if not os.path.exists(MODEL_PATH):
     raise RuntimeError(f"Model not found at {MODEL_PATH}")
 
-model = load_model(MODEL_PATH, compile=False, safe_mode=False)
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        model = load_model(MODEL_PATH, compile=False)
+    return model
+
 
 
 
@@ -108,7 +117,8 @@ def run_inference(img_path: str):
     in_arr = np.expand_dims(in_arr, axis=0)
 
     # Predict
-    preds = model.predict(in_arr, verbose=0)[0]
+    preds = get_model().predict(in_arr, verbose=0)[0]
+
     class_id = int(np.argmax(preds))
     label = CLASS_NAMES[class_id]
     conf = float(preds[class_id] * 100.0)
