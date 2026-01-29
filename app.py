@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import numpy as np
 import cv2
 import tensorflow as tf
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
@@ -32,7 +32,8 @@ MODEL_PATH = "brain_cancer_model.keras"
 if not os.path.exists(MODEL_PATH):
     raise RuntimeError(f"Model not found at {MODEL_PATH}")
 
-model = load_model(MODEL_PATH, compile=False)
+model = load_model(MODEL_PATH, compile=False, safe_mode=False)
+
 
 
 
