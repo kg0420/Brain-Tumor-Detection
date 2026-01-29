@@ -10,9 +10,14 @@ keras
 opencv-python
 Pillow
 numpy
+huggingface-hub>=0.24.0
+hf-xet
+h5py
+
 
 # --- For Grad-CAM Visualization ---
 matplotlib
+huggingface-hub>=0.24.0
 
 # --- Deployment (optional but recommended) ---
 gunicorn

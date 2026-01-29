@@ -25,8 +25,16 @@ app.secret_key = "super-secret-key"  # change in prod
 # -------------------
 # Load model once
 # -------------------
-MODEL_PATH = "brain_cancer_model.h5"
-model = load_model(MODEL_PATH)
+
+
+MODEL_PATH = "brain_cancer_model_v2.h5"
+
+if not os.path.exists(MODEL_PATH):
+    raise RuntimeError(f"Model not found at {MODEL_PATH}")
+
+model = load_model(MODEL_PATH, compile=False)
+
+
 
 # Match your class order used when training
 CLASS_NAMES = ["glioma", "meningioma", "notumor", "pituitary"]
@@ -154,5 +162,8 @@ def index():
 
     return render_template("index.html", pred_label=None)
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
