@@ -27,7 +27,7 @@ app.secret_key = "super-secret-key"  # change in prod
 # -------------------
 
 
-MODEL_PATH = "brain_cancer_model.keras"
+MODEL_PATH = "brain_cancer_model.h5"
 
 if not os.path.exists(MODEL_PATH):
     raise RuntimeError(f"Model not found at {MODEL_PATH}")
