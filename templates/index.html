@@ -5,29 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🧠 Brain Tumor Classifier</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body { background: radial-gradient(circle at top, #0f172a, #000); color: #eef2ff; }
-    .card { background: rgba(255,255,255,0.06); backdrop-filter: blur(8px); }
+    body {
+      background: radial-gradient(circle at top, #0f172a, #000);
+      color: #eef2ff;
+    }
+    .card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+    }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center p-4">
 
-  <header class="w-full max-w-5xl mt-6 mb-4 text-center">
-    <h1 class="text-3xl md:text-4xl font-bold text-cyan-300">Brain Tumor Detection</h1>
-    <p class="text-slate-300 mt-2">Upload an MRI (JPG/PNG). The model will predict and show a Grad-CAM heatmap.</p>
+  <!-- Header -->
+  <header class="w-full max-w-6xl mt-6 mb-6 text-center">
+    <h1 class="text-4xl font-bold text-cyan-300">🧠 Brain Tumor Detection System</h1>
+    <p class="text-slate-300 mt-2">
+      Upload an MRI image. The AI model predicts the tumor type and provides precautions.
+    </p>
   </header>
 
-  <main class="w-full max-w-5xl grid md:grid-cols-2 gap-6">
-    <!-- Upload Card -->
-    <section class="card rounded-2xl p-5">
-      <form method="POST" enctype="multipart/form-data" class="space-y-4">
-        <label class="block text-sm text-slate-200">Select MRI image</label>
-        <input name="image" type="file" accept="image/*"
-               class="w-full p-2 rounded bg-slate-800 border border-cyan-600 focus:outline-none">
+  <!-- Main -->
+  <main class="w-full max-w-6xl grid md:grid-cols-2 gap-6">
 
-        <button type="submit"
-                class="w-full mt-3 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-semibold transition">
-          Predict
+    <!-- Upload Card -->
+    <section class="card rounded-2xl p-6">
+      <h2 class="text-xl font-semibold text-cyan-200 mb-4">Upload MRI Scan</h2>
+
+      <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        <input
+          name="image"
+          type="file"
+          accept="image/*"
+          required
+          class="w-full p-2 rounded bg-slate-800 border border-cyan-600 focus:outline-none"
+        >
+
+        <button
+          type="submit"
+          class="w-full py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-semibold transition">
+          🔍 Predict Tumor
         </button>
       </form>
 
@@ -43,38 +63,101 @@
     </section>
 
     <!-- Result Card -->
-    <section class="card rounded-2xl p-5">
+    <section class="card rounded-2xl p-6">
       {% if pred_label %}
-        <div class="space-y-3">
-          <div class="text-lg">
+        <div class="space-y-4">
+
+          <!-- Prediction -->
+          <div class="flex items-center gap-3">
             <span class="text-slate-300">Prediction:</span>
-            <span class="font-bold text-white">{{ pred_label|title }}</span>
-          </div>
-          <div class="text-lg">
-            <span class="text-slate-300">Confidence:</span>
-            <span class="font-bold text-white">{{ pred_conf }}%</span>
+            <span class="px-3 py-1 rounded-full text-sm font-semibold
+              {% if pred_label == 'glioma' %} bg-red-600
+              {% elif pred_label == 'meningioma' %} bg-yellow-500
+              {% elif pred_label == 'pituitary' %} bg-purple-600
+              {% else %} bg-green-600 {% endif %}
+            ">
+              {{ pred_label|title }}
+            </span>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <figure>
-              <figcaption class="text-sm text-slate-300 mb-1">Uploaded Image</figcaption>
-              <img src="{{ uploaded_url }}" alt="Uploaded MRI" class="rounded-lg w-full object-contain border border-slate-700">
-            </figure>
-
-            <figure>
-              <figcaption class="text-sm text-slate-300 mb-1">Grad-CAM Heatmap</figcaption>
-              <img src="{{ cam_url }}" alt="Grad-CAM" class="rounded-lg w-full object-contain border border-slate-700">
-            </figure>
+          <!-- Confidence -->
+          <div>
+            <p class="text-slate-300 mb-1">Confidence: <b>{{ pred_conf }}%</b></p>
+            <div class="w-full bg-slate-700 rounded-full h-3">
+              <div
+                class="h-3 rounded-full bg-cyan-400"
+                style="width: {{ pred_conf }}%">
+              </div>
+            </div>
           </div>
+
+          <!-- Image -->
+          <figure class="mt-4">
+            <figcaption class="text-sm text-slate-300 mb-1">Uploaded MRI</figcaption>
+            <img
+              src="{{ uploaded_url }}"
+              class="rounded-lg w-full border border-slate-700"
+              alt="Uploaded MRI"
+            >
+          </figure>
+
+          <!-- Precautions -->
+          <div class="mt-6">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-2">⚠️ Precautions & Medical Guidance</h3>
+
+            {% if pred_label == "glioma" %}
+              <ul class="list-disc ml-5 text-slate-300 space-y-1">
+                <li>Consult a neurologist or neurosurgeon immediately</li>
+                <li>Regular MRI scans are essential</li>
+                <li>Avoid stress and ensure proper sleep</li>
+                <li>Treatment may include surgery, radiation, or chemotherapy</li>
+              </ul>
+
+            {% elif pred_label == "meningioma" %}
+              <ul class="list-disc ml-5 text-slate-300 space-y-1">
+                <li>Often benign but requires monitoring</li>
+                <li>Follow up with periodic imaging</li>
+                <li>Surgery may be advised if symptoms increase</li>
+                <li>Maintain healthy blood pressure</li>
+              </ul>
+
+            {% elif pred_label == "pituitary" %}
+              <ul class="list-disc ml-5 text-slate-300 space-y-1">
+                <li>Consult an endocrinologist</li>
+                <li>Hormonal tests may be required</li>
+                <li>Monitor vision changes</li>
+                <li>Treatment may involve medication or surgery</li>
+              </ul>
+
+            {% else %}
+              <ul class="list-disc ml-5 text-slate-300 space-y-1">
+                <li>No tumor detected</li>
+                <li>Maintain regular health checkups</li>
+                <li>Report persistent headaches or symptoms</li>
+                <li>Healthy lifestyle is recommended</li>
+              </ul>
+            {% endif %}
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="mt-6 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg text-xs text-yellow-300">
+            ⚠️ This AI system is for educational purposes only and should not replace professional medical diagnosis.
+          </div>
+
         </div>
       {% else %}
-        <p class="text-slate-300">No prediction yet. Upload an image to begin.</p>
+        <p class="text-slate-300">
+          No prediction yet. Upload an MRI image to get started.
+        </p>
       {% endif %}
     </section>
+
   </main>
 
+  <!-- Footer -->
   <footer class="mt-10 text-xs text-slate-400">
-    @Developer Krish Gupta
+    © Developed by <b>Krish Gupta</b> | AI-Powered Medical Assistance
   </footer>
+
 </body>
 </html>
