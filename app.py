@@ -36,11 +36,9 @@ if not os.path.exists(MODEL_PATH):
 
 model = None
 
-def get_model():
-    global model
-    if model is None:
-        model = load_model(MODEL_PATH, compile=False)
-    return model
+
+model = load_model(MODEL_PATH, compile=False)
+
 
 
 
@@ -117,7 +115,7 @@ def run_inference(img_path: str):
     in_arr = np.expand_dims(in_arr, axis=0)
 
     # Predict
-    preds = get_model().predict(in_arr, verbose=0)[0]
+    preds = model.predict(in_arr, verbose=0)[0]
 
     class_id = int(np.argmax(preds))
     label = CLASS_NAMES[class_id]
